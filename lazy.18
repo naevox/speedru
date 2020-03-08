@@ -1,0 +1,17 @@
+Step 1 (Enumeration)
+Target is running Apache on port 80.
+
+Step 2 (Foot hold)
+We will brute force the admin login using Hydra and getting the fields required using Burp Suite.
+Once we are inside we see a page with an SSH key, we use this key to SSH into the server as a standard user.
+
+Step 3 (Enumeration)
+Upon login we see a script which reads the shadow file.
+We run strings and see that this file uses the command 'cat /etc/shadow' as a root process.
+
+Step 4 (Privilege escalation)
+In /tmp directory make the bash script '#!/bin/sh; /bin/sh' which will simply run a new bash session.
+Name the script cat.
+Change the system call to our script using 'export PATH=/tmp:$PATH'.
+
+Step 5 (Host enumeration)

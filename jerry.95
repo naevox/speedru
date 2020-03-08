@@ -1,0 +1,15 @@
+Step 1 (Scanning)
+- machine was scanned and rescanned using Nmap
+
+Step 2 (Enumeration)
+- target has apache tomcat running on port 8080
+- gobuster shows directory /manager is available
+- login using the default credentials 'tomcat/s3cret'
+- page allows for .war files to be uploaded and run for server use
+
+Step 3 (Gaining access)
+- use msfvenom to make .war reverse shell
+- upload to server and use nc to listen for connection back
+- shell is a system level so no priv esc needed
+
+Step 4 (Pilfering)

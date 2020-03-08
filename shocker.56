@@ -1,0 +1,21 @@
+Step 1 (Scanning)
+- machine has been scanned using Nmap
+- machine has been reverted and re-scanned.
+
+Step 2 (Enumeration)
+- Target is running apache on port 80.
+- Gobuster reveals directory '/cgi-bin/user.sh'.
+- Apache plus ubuntu versions search reveals shellshock exploit.
+- https://www.exploit-db.com/exploits/34900
+
+Step 3 (Foot hold)
+- Change the directory which shellshock exploit will interact with.
+- Run with python.
+
+Step 4 (Enumeration)
+- 'sudo -l' shows we can run perl as sudo without a password
+
+Step 5 (Privilege escalation)
+- 'sudo /usr/bin/perl -e 'exec("/bin/bash")' drops us into a root shell
+
+Step 6 (Pilfering)

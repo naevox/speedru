@@ -1,0 +1,27 @@
+Step 1 (Scanning)
+- machine was scanned using ping
+- machine was reverted and re-scanned using ping
+
+Step 2 (Enumeration)
+- target has ports 53,80,443,445
+- smbmap shows the directory /Development/ has read/write access
+- doing 'dig axfr @10.10.10.123 friendzone.red' we get a zone transfer of the domains assigned to the host
+- adding the domains to '/etc/hosts' we go to https://administrator1.friendzone.red which shows a loggin page
+- admin/ admin wont work but during smbmap we saw a file called 'creds.txt'
+- using the username: admin and password from the creds.txt file we gain access
+- where the page goes 'pagename=timestamp' we see a possible LFI vulnerability
+
+Step 3 (Gaining access)
+- we add a reverse php shell to the /Development/ directory and access it through the LFI vulnerability
+- we keep a nc listener active for the reverse shell and gain www-data access to the system
+- navigating to /var/www directory we see the credentials for the friend user in the ASCII file 'mysql_data.conf'
+- we ssh into the box with the friend credentials and run the pspy script to see running proceses
+- a script called 'reported.py' is ran using cron_job
+- the script can't be edited but it imports OS library
+
+Step 4 (Priviledge escalation)
+- doing 'which nano' we see the system contains the nano text editor
+- we look for a python reverse shell which is self contained and remove all the os call to functions and add the script into the OS library for python2 as that is what the script is written in
+- Setting up a NC listener for the reverse shell and wait for the cronjob to run the script as a root process
+
+Step 5 (Pilfering)

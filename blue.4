@@ -1,0 +1,10 @@
+Step 1 (Enumeration)
+- Target is running smb on ports 135,139,445.
+- 'nmap --script vuln -p 135,139,445 10.10.10.4' shows MS17-010 eternal blue exploit.
+
+Step 2 (Foot hold/ Priv esc)
+- https://www.exploit-db.com/exploits/42315
+- fix this code using this tutorial for manual exloitation:
+- https://null-byte.wonderhowto.com/how-to/manually-exploit-eternalblue-windows-server-using-ms17-010-python-exploit-0195414/
+
+Step 3 (Pilfering)

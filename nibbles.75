@@ -1,0 +1,21 @@
+Step 1 (Enumeration)
+- the source of the first page shows /nibbleblog/ directory.
+- gobuster reveals /admin.php within the /nibbleblog/ directory.
+- login: admin, password:nibbles
+
+Step 2 (Foot hold)
+- upload php reverse shell to the upload image uploader
+- find location of image/webshell and execute it
+
+Step 3 (Enumeration) Method 1
+- 'sudo -l' shows sudo can be used on '/home/nibbles/personal/stuff/monitor.sh'
+
+Step 4 (Priviledge escalation)
+- place '#! /bin/sh; /bin/sh' in the monitor.sh file location and run as sudo.
+
+Step 3 (Enumeration) Method 2
+- wget linux priv esc script and run as bash
+- compile https://www.exploit-db.com/exploits/45010 with gcc and wget output on target.
+
+Step 4 (Priviledge escalation)
+- run priviledge escalation exploit.

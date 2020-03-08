@@ -1,0 +1,26 @@
+Step 1 (Scanning)
+- host was scanned using ICMP to check for run time
+- target was scanned using nmap and reverted & re-scanned
+
+Step 2 (Enumeration)
+- host has many james processes running so a searchsploit revealed https://www.exploit-db.com/exploits/35513
+- target has an email remote admin service running on 4555
+- nc into 4555 and login with the default credentials specified in the exploit we found
+- change the password to user Mindy and open using thunder bird
+
+Step 3 (Gaining access)
+- in Mindy's emails we see her password to ssh
+- we run the exploit specified above changing the payload to a nc reverse shell to our attacking machine as Mindy has restrictive rbash running rather than bash.
+- upgrading our shell using:
+  - 'python -c 'import pty;pty.spawn ("/bin/bash")'
+  - CTRL z
+  - stty raw -echo
+  - fg \<enter\>
+  - export TERM=xterm
+
+Step 4 (Priviledge escalation)
+- running LinEnum.sh -t for thorough search we see a file which runs as a root process through cron
+- edit the file /opt/tmp.py to instead of deleting all files in tmp when cron hits to instead make dash into a process we can use
+- run the command 'dash'
+
+Step 5 (Pilfering)

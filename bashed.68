@@ -1,0 +1,16 @@
+Step 1 (Enumeration)
+- Target is running apache on port 80.
+- gobuster reveales /dev
+
+Step 2 (Foot hold)
+- /dev directory has php based bash shell running within browser under www-data account.
+- upload reverse shell for persistence and open nc listener.
+
+Step 3 (Enumeration)
+- 'sudo -l' will show which users can use sudo and which sudo commands.
+- 'sudo -u scriptmanager bash' opens bash session under user scriptmanager which can sudo freely.
+
+Step 4 (Privilege escalation)
+- in /scripts edit test.py into becoming a reverse shell as its a process that runs in root.
+
+Step 5 (Pilfering)

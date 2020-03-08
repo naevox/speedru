@@ -1,0 +1,19 @@
+Step 1 (Scanning)
+- target was scanned and reverted/ re-scanned using nmap
+
+Step 2 (Enumeration)
+- target has ports 80 and 443 available
+- program running is pfsense, googling the software we see it is for a router and port 80 is just a redirect to port 443 for ease of browser use
+- running going to changelog we see the firewall is down due to configuration errors, this will aid in us scanning the target
+- dirbuster shows the file 'system-users.txt' which hosts the username used and the password being default
+
+Step 3 (Gaining access)
+- to gain access we write the username 'rohit' and password 'pfsense'
+- inside the API we see the version of pfsense which is 2.1.3
+- googling an RCE exploit we see 'https://www.exploit-db.com/exploits/43560' available
+
+Step 4 (Priviledge escalation)
+- running the exploit against our target with the user credentials
+- having a nc listener set to the lport we receive a root shell back as fpsense runs as a root process.
+
+Step 5 (Pilfering)

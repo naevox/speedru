@@ -1,0 +1,18 @@
+Step 1 (Scanning)
+- host was scanned and rescanned using Nmap
+
+Step 2 (Enumeration)
+- host is running port 22 and 80
+- gobuster on port 80 reveals directories /dev/, /encode, /decode
+- going into /dev we see a file called 'hype_key' we see its in hex format so we use an online decoder
+- using nmap vuln scan we see port 443 is vulnerable to heartbleed
+- heartbleed output gives us a base64 encoded output which we use the /decoder directory to retrieve
+
+Step 3 (Gaining access)
+- placing the decoded 'hype_key' into a file called 'hyde.key' and using 'ssh -i hyde.key hype@10.10.10.79' we user ssh session
+- running ps -aux we see a root process running tmux
+
+Step 4 (Priviledge escalation)
+- by running the tmux session which root owns we can hyjack the session and get access to a root shell
+
+Step 5 (Pilfering)

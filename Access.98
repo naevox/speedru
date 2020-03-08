@@ -1,0 +1,13 @@
+Step 1 (Scanning)
+- target was scanned, reverted and re-scanned using Nmap
+
+Step 2 (Enumeration)
+- target has port 21,23,80 running
+- port 21 is open for anonymous ftp login
+- login and download all files for backup and engineering directories
+- see the strings in backup.mdb with 'strings backup.mdb' and locate an email address 'access4u@security' and use that as the password for decrypting the Access\ Control.zip file
+- 'readpst -S Access\ Control.pst' file to read the content of the file which was encrypted within the .zip folder
+
+Step 3 (Gaining access)
+- login to telnet as security with the credentials in the .pst email file
+

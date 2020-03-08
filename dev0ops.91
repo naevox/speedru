@@ -2,6 +2,7 @@ Step 1 (Enumeration)
 - target has ports 22 (SSH),5000 (HTTP) open
 - gobuster shows /upload directory
 - /upload directory is for XML script upload
+- sending the XML script through burp we can edit the script easily and send to the target
 
 Step 2 (Foot hold)
 - using $1 we enumerate the users on the system.
@@ -26,3 +27,10 @@ Step 2 (Foot hold)
 - With the privat key we just login using the syntax 'ssh -i rsa.key roosa@10.10.10.91
 
 Step 3 (Enumeration)
+- through seeing the users bash history we see they use git commands
+- using 'git log -p' we see the developer has added then deleted an RSA key
+
+Step 4 (Priviledge escalation)
+- The RSA key which the user has deleted is the copied to our system and used with this syntax 'ssh -i rsa.key root@10.10.10.91'
+
+Step 5 (Pilfering)

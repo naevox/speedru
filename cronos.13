@@ -1,0 +1,21 @@
+Step 1 (Enumeration)
+- nmap shows DNS running on TCP port 53
+- 'dig axfr @10.10.10.13 cronos.htb' shows zone transfer file from server
+- admin.cronos.htb POST request using burpsuite and send to SQLMAP
+
+Step 2 (Foothold)
+- using SQL injection to bypass login proxy browser through burp
+- options open are vulnerable to comand injection
+- use reverse nc onliner from pentest monkey.
+
+Step 3 (Enumeration)
+- Using the linux-exploit-suggester from 
+- 'https://github.com/mzet-/linux-exploit-suggester' we find the exploit:
+- https://www.exploit-db.com/download/45010
+
+Step 4 (privilege escalation)
+- Using the c script found in enumeration use gcc to compile it
+- upload compiled script to target using wget and 'python -m SimpleHTTPServer'
+- run script
+
+Step 5 (Pilfering)

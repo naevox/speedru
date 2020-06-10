@@ -1,1 +1,13 @@
+step 1 (enumeration)
+- nmap scan reveals port 8500 open
+- opening the port in a web browser reveals coldfusion directories
+- enumeration of the directories reveals the version is coldfusion 8
 
+step 2 (gaining access)
+- running searchsploit on coldfusion 8 reveals a metasploit module for arbitrary file upload
+- running the module out of the box fails due to coldfusion delayed responce
+- opening burp we set the proxy option to redirect the request from localhost:8500 to 10.10.10.11:8500
+- running a nc listener to the port specified in the payload loads a reverse shell once the responce has gone through
+
+step 3 (enumeration)
+- 

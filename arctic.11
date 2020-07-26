@@ -4,10 +4,10 @@ step 1 (enumeration)
 - enumeration of the directories reveals the version is coldfusion 8
 
 step 2 (gaining access)
-- running searchsploit on coldfusion 8 reveals a metasploit module for arbitrary file upload
-- running the module out of the box fails due to coldfusion delayed responce
-- opening burp we set the proxy option to redirect the request from localhost:8500 to 10.10.10.11:8500
-- running a nc listener to the port specified in the payload loads a reverse shell once the responce has gone through
+- a quick google search reveals coldfusion 8 is vulnerable to information disclosure, further research reveals the administrator hash location is kept in \ColdFusion8\lib\password.properties.
+- using the syntax http://site/CFIDE/administrator/enter.cfm?locale=..\..\..\..\..\..\..\..\ColdFusion8\lib\password.properties%00en we are able to find the admin sha1 hash
+- running hash identifier we see the hash is SHA1 so using an online decoder we find the hash is for the key 'happyday'
+- logging into th administrator interface with the username admin and password happyday 
 
 step 3 (enumeration)
 - 

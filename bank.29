@@ -1,1 +1,19 @@
+step 1 (enumeration)
+- nmap scan reveals ports 53 and 80 open
+- adding the IP and hostname to the /etc/hosts file we can navigate to the login webpage
+- running dirbuster we can see the subdirectory /balance-transfers/ open
+- navigating here we see one file with credentials for chris@bank.htb login
 
+step 2 (gaining access)
+- logging in we navigate to the support page
+- viewing page source we see the admin has allowed for any file with .htb extention to run as .php
+- adapting our php shell to call back to us we upload it with .htb extention
+- we set up a nc listener with the port used for the script
+- we click pn 'click here' under 'attachement'
+
+step 3 (enumeration)
+- running 'find / -user root -perm -4000 -exec ls -ldb {} \;' we find an 'emergency script with the SUID of root
+
+step 4 (priviledge escalation)
+- upgrade the reverse shell connection using python pty library
+- run the emergency script

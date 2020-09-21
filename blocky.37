@@ -1,0 +1,13 @@
+Enumeration:
+- running an nmap scan we see port 22 and 80 are open.
+- running gobuster we are shown /plugins/ and /phpmyadmin/ are available.
+- going into /plugins/ we see blocky.jar, we download and unzip this file to reveal a .class file.
+
+Gaining access:
+- inside the .class file we see credentials to log into /phpmyadmin/
+- when inside /phpmyadmin/ we see a file for wordpress users, here we get the username notch.
+- using the username notch and the password from the .class file we ssh into the machine.
+
+Priviledge escalation:
+- running sudo -l we see we are sudoers with free roam.
+- 'sudo su' will turn us into root.

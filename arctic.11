@@ -7,7 +7,15 @@ step 2 (gaining access)
 - a quick google search reveals coldfusion 8 is vulnerable to information disclosure, further research reveals the administrator hash location is kept in \ColdFusion8\lib\password.properties.
 - using the syntax http://site/CFIDE/administrator/enter.cfm?locale=..\..\..\..\..\..\..\..\ColdFusion8\lib\password.properties%00en we are able to find the admin sha1 hash
 - running hash identifier we see the hash is SHA1 so using an online decoder we find the hash is for the key 'happyday'
-- logging into th administrator interface with the username admin and password happyday 
+- logging into the administrator interface with the username admin and password happyday 
+- use OSINT to find coldfusin is made with java and make java msfvenom payload
+- host payload using SimpleHTTPServer
+- use scheduled task to download payload and use site mapper feature to see the directory which the web folders are held and write file to there
 
 step 3 (enumeration)
-- 
+- set up nc listener for the port specified and open payload using browser
+- make a second meterpreter payload and upload it using powershell
+- run exploit suggester msfconsole module
+
+step 4 (priviledge escalation)
+- use the exploit suggested by suggester module

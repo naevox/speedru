@@ -1,0 +1,20 @@
+Servmon.184
+
+Step 1 (scanning)
+- host was pinged and reverted to ensure it is working as intended
+
+Step 2 (enumeration)
+- using nmap to port sweep we see port 21 and 80 are open
+- Ftp into the machine we see Nathan and nadines user directory
+- Inside nadines directory we see a file called confidential.txt is available
+- We are not able to get the file due to lack of permission but we can read it using the syntax ‘get confidential.txt -‘
+- Here we see a password list is available inside Nathan’s desktop directory
+- On port 80 we see nvm-1000 which is vulnerable to path traversal 
+- Using burp we access the password list using the directory request ‘/../../../../../../../../../../Users/Nathan/Desktop/Passwords.txt’
+
+Step 2 (gaining access)
+- with the previous nmap scab we see port 22 is also open
+- with these passwords we are able to ssh into the machine as nadine using the 4th password down the list
+
+Step 3 (enumeration)
+- 

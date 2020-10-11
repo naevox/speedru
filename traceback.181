@@ -1,0 +1,20 @@
+Traceback.181
+
+Step 1 (scanning)
+- host was scanned using ICMP to ensure it is running
+
+Step 2 (enumeration)
+- host had port 80 open which directs to a page mentioning it was hacked and a backdoor was left behind. 
+- Viewing the page source there is a comment ‘some of the best web shells that you might need’ from here we good the hacker alias on the webpage which leads us to a github repository
+- I’m the GitHub account there is a section of webshells
+- We use the webshell names in the url extensions, the shell ‘smevk.php’
+- From here login with credentials ‘admin:admin’
+
+Step 3 (gaining access)
+- Edit a reverse php webshell and make it call back to your machine. 
+- Use nc to catch the call home from the shell and upgrade the shell with ‘python3 -c ‘import pty; pty.spawn (“/bin/bash”)’
+- Running ‘sudo -l’ we see we can run a lua command line IDE as sysadmin
+- Making a script ‘os.execute(“/bin/bash”)’ we run it as sysadmin through ‘sudo -u sysadmin /home/webadmin/script.lua’
+
+Step 4 (enumeration)
+- 

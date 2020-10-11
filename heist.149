@@ -1,3 +1,21 @@
 step 1 (Enumeration)
 - nmap scan reveals port 80,135,445,5985,49669 open
-- 
+- open port 80 using a browser we see a login page with 'login as guest' on the bottom right
+- in there download cisco config file posted by user 'Hazard'
+- decode the passwords using hashcat for the 'secret' key and online 'cisco password 7' decoders
+- running "python3 /usr/share/doc/python3-impacket/examples/lookupsid.py 'Hazard:stealth1agent'@10.10.10.149" will retrieve the usernames on the active directory
+- port 135 is open so we will use "rpcclient -U 'Hazard%stealth1agent' 10.10.10.149" to connect to it
+- run 'lookupnames Hazard', copy the output except the last octet, set the final octet to 1000 and increment by one to enumerate all users on RPC client
+
+step 2 (Gaining access)
+- run the username and password list using crackmapexec aimed towards smb shares using the syntaxt: 
+"crackmapexec smb -u <usernames.txt> -p <passwords.txt> --shares 10.10.10.149"
+- looking at the nmap we see winRM is running so we are able to use 'evil-winrm' tool to get a remote shell 'https://github.com/Hackplayers/evil-winrm'
+
+step 3 (Enumeration)
+- downloading the sysinternals suite we find the tool 'procdump64.exe' which we run accepting '-accepteula' to dump currently running processes on a windows machine
+- using the command 'Get-Process' we can get currently running processes on the machine
+- here we see a firefox instance running which on a htb machine is weird, so we dump the process to view what is happening
+
+step 4 (Priviledge escalation)
+- running 'strings' we see an administrator username and password which we use to psexec.py into the machine remotely as administrator.

